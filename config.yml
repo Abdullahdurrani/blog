@@ -85,6 +85,8 @@ params:
       url: "https://www.linkedin.com/in/abdullahdurrani/"
     - name: email
       url: mailto:m.abdullahdurrani7@gmail.com
+    - name: cv
+      url: resume.html
 
   analytics:
     google:
