@@ -79,8 +79,6 @@ params:
   socialIcons:
     - name: github
       url: "https://github.com/abdullahdurrani"
-    - name: stackoverflow
-      url: "https://stackoverflow.com/users/14118745/abd"
     - name: linkedin
       url: "https://www.linkedin.com/in/abdullahdurrani/"
     - name: email
