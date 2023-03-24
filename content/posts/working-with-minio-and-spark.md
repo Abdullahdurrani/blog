@@ -64,4 +64,41 @@ Py4JJavaError: An error occurred while calling o123.json.
 : java.lang.RuntimeException: java.lang.ClassNotFoundException: Class org.apache.hadoop.fs.s3a.S3AFileSystem not found
 ```
 
+To solve this error we need to download the following dependencies:
+* JAR file: `hadoop-aws`
+* JAR file: `aws-java-sdk-bundle`
 
+### Downloading `hadoop-aws`
+We need to check which version to install for `hadoop-aws`. All Hadoop JARs must have the exact same version. So, if existing Hadoop JARs are `3.2.2`, then we should download `hadoop-aws:3.2.0`
+
+One way to find out the exisitng Hadoop JARs versions is to check jars folder inside your pyspark folder. 
+```
+cd pyspark/jars && ls -l | grep hadoop
+```
+
+Once you know which `hadoop-aws` version to install, head over to this link: [hadoop-aws maven repo](https://mvnrepository.com/artifact/org.apache.hadoop/hadoop-aws) and download required version.
+
+### Downloading `aws-java-sdk-bundle`
+On the `hadoop-aws` download page scroll down a little and you will see    
+**Compile Dependencies** section. Download the `aws-java-sdk-bundle` under the **Version** column.
+
+Once you have downloaded the JARs, copy them inside your `your-pyspark-folder/jars/` folder.
+
+Now run the script again. This time maybe you will get the following error:
+```
+py4j.protocol.Py4JJavaError: An error occurred while calling o68.start.
+: java.io.IOException: From option fs.s3a.aws.credentials.provider 
+java.lang.ClassNotFoundException: Class 
+org.apache.hadoop.fs.s3a.auth.IAMInstanceCredentialsProvider not found
+```
+
+To solve this error change your spark session to:
+```
+spark = SparkSession.builder \
+    .config("spark.hadoop.fs.s3a.aws.credentials.provider", "org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider") \
+    .getOrCreate()
+```
+
+Hopefully this will solve your error. If you still get this error try replacing your existing `guava-xx.x.jar` with `guava-23.0.jar` or `guava-30.0.jar`.
+
+Once you have all your errors sorted you will be able to interact with MinIO using your pyspark code.
