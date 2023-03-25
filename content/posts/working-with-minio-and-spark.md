@@ -1,5 +1,5 @@
 ---
-title: "Working With Minio and Spark"
+title: "Working With MinIO and Spark"
 date: 2023-03-24T22:04:36+05:00
 ---
 
@@ -53,7 +53,7 @@ sc._jsc.hadoopConfiguration().set("fs.s3a.connection.ssl.enabled", "false")
 # Read a JSON file from an MinIO bucket using the access key, secret key, 
 # and endpoint configured above
 df = spark.read.option("header", "true") \
-    .json(f"s3a://{minio_bucket}/raw/20230323.json")
+    .json(f"s3a://{minio_bucket}/file.json")
 
 # show data
 df.show()
@@ -100,5 +100,19 @@ spark = SparkSession.builder \
 ```
 
 Hopefully this will solve your error. If you still get this error try replacing your existing `guava-xx.x.jar` with `guava-23.0.jar` or `guava-30.0.jar`.
+
+### Writing to MinIO
+You can write to MinIO using following code. 
+```
+df.write.mode("overwrite").parquet(f"s3a://{minio_bucket}/file.parquet")
+```
+While writing you may encounter the following error:
+```
+An error occurred while calling o1152.parquet.
+: org.apache.spark.SparkException: Job aborted.
+	at org.apache.spark.sql.errors.QueryExecutionErrors$.jobAbortedError(QueryExecutionErrors.scala:638)
+```
+To solve this error download the `hadoop.dll` from [winutils hadoop](https://github.com/cdarlint/winutils/blob/master)
+according to your hadoop version. Copy this dll to your hadoop folder in your windows.
 
 Once you have all your errors sorted you will be able to interact with MinIO using your pyspark code.
