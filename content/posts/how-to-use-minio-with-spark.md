@@ -1,5 +1,5 @@
 ---
-title: "Working With MinIO and Spark"
+title: "How to use MinIO with Spark"
 date: 2023-03-24T22:04:36+05:00
 ---
 
