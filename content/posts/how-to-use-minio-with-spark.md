@@ -1,6 +1,11 @@
 ---
 title: "How to use MinIO with Spark"
 date: 2023-03-24T22:04:36+05:00
+draft: false
+tags: 
+    - Spark
+    - MinIO
+    - Hadoop
 ---
 
 In this post, we'll explore how to use Minio and Spark together. Before jumping into Spark and MinIO let's first get a brief introduction to Spark and MinIO.
